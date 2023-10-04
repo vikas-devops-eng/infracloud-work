@@ -39,3 +39,30 @@ Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
 tcp6       0      0 :::9300                 :::*                    LISTEN      1/qemu-x86_64
 
+6. Same as (4), run the container and make sure,
+     - The application is accessible on the host at http://localhost:9393
+     - Set the environment variable `CSVSERVER_BORDER` to have value `Orange`.
+
+- docker stop csvserver
+- docker rm csvserver
+
+- docker run -p 9393:9300 --name csvserver -v "$(pwd)/inputFile:/csvserver/inputdata" -e CSVSERVER_BORDER=orange -d infracloudio/csvserver:latest
+
+opened http://localhost:9393/ 
+
+
+
+PART 2.
+
+  0. Delete any containers running from the last part.
+    docker stop csvserver
+    docker rm csvserver
+
+  1. Create a `docker-compose.yaml` file for the setup from part I.
+
+  2. Use an environment variable file named `csvserver.env` in `docker-compose.yaml` to pass environment variables used in part I.
+- touch docker-compose.yaml csvserver.env and add required details.
+
+  3. One should be able to run the application with `docker-compose up`.
+ - verify the solution by browsing - http://localhost:9393/
+   
