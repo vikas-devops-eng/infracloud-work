@@ -1,5 +1,4 @@
-Part 1.
-
+## Part I
 1. Run the container image `infracloudio/csvserver:latest` in background and check if it's running.
  - docker run -d --name csvserver infracloudio/csvserver:latest
 
@@ -13,8 +12,6 @@ vi gencsv.sh
     #!/bin/bash
     start=$1
     end=$2
-
-    > inputFile  # Clear the contents of the file or create it if it doesn't exist
 
     for ((i=start; i<=end; i++)); do
         rand_num=$((RANDOM % 1000))  # Generate a random number between 0 and 999
@@ -52,7 +49,7 @@ opened http://localhost:9393/
 
 
 
-PART 2.
+## Part II
 
   0. Delete any containers running from the last part.
     docker stop csvserver
@@ -65,4 +62,21 @@ PART 2.
 
   3. One should be able to run the application with `docker-compose up`.
  - verify the solution by browsing - http://localhost:9393/
-   
+
+
+## Part III
+
+    0. Delete any containers running from the last part.
+-     docker stop csvserver
+-     docker rm csvserver
+
+    1. Add Prometheus container (`prom/prometheus:v2.22.0`) to the docker-compose.yaml form part II.
+    cat docker-compose.yaml
+
+    2. Configure Prometheus to collect data from our application at `<application>:<port>/metrics` endpoint. (Where the `<port>` is the port from I.5)
+    
+    http://localhost:9090/metrics
+    
+    3. Make sure that Prometheus is accessible at http://localhost:9090 on the host.
+    4. Type `csvserver_records` in the query box of Prometheus. Click on Execute and then switch to the Graph tab.
+- http://localhost:9090/graph?g0.range_input=1h&g0.expr=csvserver_records&g0.tab=0
